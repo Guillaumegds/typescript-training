@@ -4,8 +4,13 @@ describe('Cloning', () => {
 		// implement shallowClone operation
 		// which recreates only the top-level of a data structure
 		function shallowClone(data){
-			//...
+			let data1 = {};
+			for (var i in data) {
+				data1[i] = data[i]
+			}
+			return data1
 		}
+
 
 		it('can clone simple objects', () => {
 			var src1 = {
@@ -59,10 +64,23 @@ describe('Cloning', () => {
 	describe('deep cloning', () => {
 		// implement deepClone operation
 		// which recreates all (top and each nested) levels of a data structure
-		function deepClone(data){
-			//...
-		}
+		
+			function deepClone(data) {
+				var newData = {};
+				for(var key in data){
+				  if(typeof data[key] === 'object'){
+				   newData[key] = deepClone(data[key]);
+				  }else{
+				   newData[key] = data[key];
+				  }
+				}
+				return newData;
+			  }
 
+
+
+
+	
 		it('can clone nested objects', () => {
 			var src = {
 				a: 1,
@@ -75,6 +93,7 @@ describe('Cloning', () => {
 				hello: function(){ console.log('hello') }
 			};
 			var clone = deepClone(src);
+			
 			expect(src == clone).toEqual(false);
 			expect(src === clone).toEqual(false);
 			expect(src.nested == clone.nested).toEqual(false);
